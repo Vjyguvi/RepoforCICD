@@ -4,13 +4,13 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'docker build -t my-flask1 .'
-        sh 'docker tag my-flask1 $dockertag'
+        sh 'docker build -t my-flask2 .'
+        sh 'docker tag my-flask2 $dockertag'
       }
     }
     stage('Test') {
       steps {
-        sh 'docker run -d -it --name appserver1 -p3000:5000 my-flask'
+        sh 'docker run -d -it --name appserver2 -p3001:5000 my-flask'
       }
     }
     stage('Deploy') {
@@ -26,7 +26,7 @@ pipeline {
 
 post{
       always{
-            emailext attachLog: true, body: 'From Jenkins Job', compressLog: true, subject: 'Jenkins RunTime', to: 'aws.vjy@gmail.com'
+            emailext body: 'From Jenkins Job', subject: 'Jenkins RunTime', to: 'aws.vjy@gmail.com'
         }
 }
 
