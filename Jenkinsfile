@@ -4,6 +4,9 @@ pipeline {
   stages {
     stage('Build') {
       steps {
+        sh 'docker rm -f my-flask'
+        sh 'docker rmi -f my-flask'
+        sh 'docker rmi -f $dockertag'
         sh 'docker build -t my-flask .'
         sh 'docker tag my-flask $dockertag'
       }
@@ -25,8 +28,9 @@ pipeline {
   }
 
 post{
-      always{
-            emailext body: 'From Jenkins Job', subject: 'Jenkins RunTime', to: 'aws.vjy@gmail.com'
+     always{
+            script {
+                     emailext body: 'From Jenkins Job', subject: 'Jenkins RunTime', to: 'aws.vjy@gmail.com'
         }
 }
 
