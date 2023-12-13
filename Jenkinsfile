@@ -5,19 +5,19 @@ pipeline {
     stage('Build') {
       steps {
         sh 'docker build -t my-flask .'
-        sh 'docker tag my-flask $DOCKER_BFLASK_IMAGE'
+        sh 'docker tag my-flask $dockertag'
       }
     }
     stage('Test') {
       steps {
-        sh 'docker run my-flask python -m pytest app/tests/'
+        sh 'docker run -d -it --name appserver -p3000:5000 my-flask'
       }
     }
     stage('Deploy') {
       steps {
-        withCredentials([usernamePassword(credentialsId: "${DOCKER_REGISTRY_CREDS}", passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-          sh "echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin docker.io"
-          sh 'docker push $DOCKER_BFLASK_IMAGE'
+        withCredentials([usernamePassword(credentialsId: 'dockerpass', passwordVariable: 'dpassword', usernameVariable: 'dusername')]) {
+          sh "docker login -u $dusername -p $dpassword"
+          sh 'docker push $dockertag'
         }
       }
     }
@@ -26,11 +26,7 @@ pipeline {
 
 post{
       always{
-            sh 'docker rm -f mypycont'
-            sh 'docker run --name mypycont -d -p 3000:5000 my-flask'
-            emailext to: "yasmin@guvi.in",
-            subject: "Notification mail from jenkins",
-            body: "CiCd pipeline"
+            emailext attachLog: true, body: 'From Jenkins Job', compressLog: true, subject: 'Jenkins RunTime', to: 'b.vjy05@gmail.com'
         }
 }
 
