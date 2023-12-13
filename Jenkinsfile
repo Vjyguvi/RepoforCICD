@@ -28,12 +28,13 @@ pipeline {
   }
 
 post{
-     always{
-             emailext (
-            subject: 'Jenkins',
-            body: 'From Jenkins Job',
-            to: 'aws.vjy@gmail.com',
-                    )
+    always {
+        script {
+            mail to: 'aws.vjy@gmail.com', subject: 'Subject', body: 'Email body'
+        }
+    }
+}
+                    
 }
 
 }
