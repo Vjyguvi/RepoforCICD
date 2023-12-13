@@ -4,13 +4,13 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'docker build -t my-flask .'
-        sh 'docker tag my-flask $dockertag'
+        sh 'docker build -t my-flask1 .'
+        sh 'docker tag my-flask1 $dockertag'
       }
     }
     stage('Test') {
       steps {
-        sh 'docker run -d -it --name appserver -p3000:5000 my-flask'
+        sh 'docker run -d -it --name appserver1 -p3000:5000 my-flask'
       }
     }
     stage('Deploy') {
