@@ -26,7 +26,7 @@ pipeline {
 
 post{
       always{
-            emailext attachLog: true, body: 'From Jenkins Job', compressLog: true, subject: 'Jenkins RunTime', to: 'b.vjy05@gmail.com'
+            emailext attachLog: true, body: 'From Jenkins Job', compressLog: true, subject: 'Jenkins RunTime', to: 'aws.vjy@gmail.com'
         }
 }
 
