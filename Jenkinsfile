@@ -13,7 +13,7 @@ pipeline {
     }
     stage('Test') {
       steps {
-        sh 'docker run -d -it --name appserver -p3000:5000 my-flask'
+        sh 'docker run -d -it --name appserver1 -p3002:5000 my-flask'
       }
     }
     stage('Deploy') {
